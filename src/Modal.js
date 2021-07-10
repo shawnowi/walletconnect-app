@@ -10,13 +10,16 @@ function Modal() {
 
     async function walletConnectInit() {
         const bridge = "https://bridge.walletconnect.org";
-        const connector = new WalletConnect({ bridge, qrcodeModal: QRCodeModal });
+        const connector = new WalletConnect({ bridge });
 
         setState(connector)
 
         if (!connector.connected) {
             await connector.createSession();
         }
+
+        QRCodeModal.open(connector.uri)
+
         await subscribeToEvents();
     }
 
@@ -30,7 +33,16 @@ function Modal() {
             //window.alert("yeah")
         }
 
-
+        walletConnector.on('connect', function (error, payload) {
+            if (error) {
+              console.error(error);
+            } else {
+              // Close QR Code Modal
+              WalletConnectQRCodeModal.close();
+              // connection is made so we can display all the data
+              displayData();
+            }
+          });
 
     }
 
