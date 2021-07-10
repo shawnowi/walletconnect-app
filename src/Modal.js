@@ -33,17 +33,6 @@ function Modal() {
             //window.alert("yeah")
         }
 
-        walletConnector.on('connect', function (error, payload) {
-            if (error) {
-              console.error(error);
-            } else {
-              // Close QR Code Modal
-              WalletConnectQRCodeModal.close();
-              // connection is made so we can display all the data
-              displayData();
-            }
-          });
-
     }
 
     return (
